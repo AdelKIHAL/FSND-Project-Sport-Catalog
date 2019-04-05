@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div>
+        <h5 class="card-title list-group-item bg-dark light">Delete Sport</h5>
+    </div>
+    <div class="card-body ">
+        {%if sport.user.email != session.email%}
+        <div class="alert alert-danger">You are not the owner of this item, you are not authorized to delete it</div>
+        {%else%}
+        <form action="{{url_for('deleteSport',category_name=sport.category.name,sport_name=sport.name)}}" method='post'>
+            <div class="form-group">
+               <label for="exampleInputEmail1">Are you sure you want to delete <b>{{sport.name|title}} </b>?</label>
+            </div>
+
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a class="btn btn-primary"
+                href="{{url_for('sports',category_name=sport.category.name,sport_name=sport.name)}}"
+                role="button">Cancel</a>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

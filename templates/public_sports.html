@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <object class="card-img" data="{{ url_for('static', filename='uploads/') }}{{sport.image}}"
+                type="image/png">
+                <img src="{{ url_for('static', filename='uploads/placeholder_350x400.jpg') }}" class="card-img"
+                    alt="..."></object>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title custom-card-title">{{sport.name | safe|title}}</h5>
+                <p class="card-text">{{sport.description | safe}}</p>
+                <div class="row align-self-bottom"
+                    style="position: absolute; bottom: 80px;right:0px; background-color: #f8f9fa7d;min-width: 180px;">
+                    <div class="blockquote-footer col-md-6" style="padding-right: 0px;padding-top: 4px;">Created by <br>
+                        <cite title="Author"><b style="padding-left: 5px;">{{sport.user.name | safe|title}}</b></cite>
+
+                    </div>
+                    <div class="col-md-5" style="padding-left: 0px; margin-right:5px;">
+                        <img src="{{sport.user.picture}}" class="small-img img-thumbnail" alt="">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

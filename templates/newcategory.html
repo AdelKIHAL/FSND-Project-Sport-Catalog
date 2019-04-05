@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div> <h5 class="card-title list-group-item bg-dark light">Create a new Sport's Category</h5></div>
+        <div class="card-body ">
+               
+<form action="{{url_for('newCategory')}}" method='post'>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Category name</label>
+        <input type="text" class="form-control" name="categoryName" aria-describedby="nameHelp"
+            placeholder="Enter category name" size="250">
+        <small id="nameHelp" class="form-text text-muted">* Category name must be unique</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div></div>
+{% endblock %}

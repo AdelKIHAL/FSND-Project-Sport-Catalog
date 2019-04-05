@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+
+<div class="jumbotron p-4 p-md-5 text-white rounded big-img">
+    <div class="col-sm-6 alpha-bg">
+        <h1 class="display-4 ">List of Sports</h1>
+        <p class="lead">There are many sports and this catalog intends to categorize them depending on the their
+            activity nature</p>
+    </div>
+</div>
+<section class="row">
+    <nav class="col-sm-3">
+        <ul class="list-group">
+            <li class="list-group-item bg-dark light">
+                <h5>Sports Categories</h5>
+            </li>
+            {% for name,count in categories %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{url_for('categories',category_name=name)}}">{{name|title}}</a>
+                <span class="badge badge-primary badge-pill">{{count}}</span>
+            </li>
+
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <article class="col-sm-9">
+
+        <ul class="list-group">
+            <li class="list-group-item bg-dark light">
+                <h5>Latest Sports</h5>
+            </li>
+            {% for sport in sports %}
+            <li class="list-group-item">
+
+                <div class="d-flex w-100 justify-content-between">
+                    <div class="mb-1">
+                        <!--                          <img class="small-img img-thumbnail"
+                            src="{{ url_for('static', filename='uploads/') }}{{sport.image | default('placeholder_150.jpg')}}" alt="">  -->
+                        {% if sport.image is defined %}
+                        <img class="small-img img-thumbnail" src="{{sport.image | exists | thumbnail('50x50') }}"
+                            alt="">
+                        {%endif%}
+                        <a href="{{url_for('sports',sport_name=sport.name,category_name=sport.category.name)}}">
+                            {{sport.name|title}}</a>
+                        <span><i class="fas fa-chevron-right"></i>
+                            <small class="text-muted">{{sport.category.name|title}}</small>
+                        </span>
+
+                    </div>
+                    <!--                     <div>
+                        <span class="action"><a href="">Edit</a></span>
+                        <span class="action"><a href="">Delete</a></span>
+                    </div> -->
+                </div>
+
+            </li>
+            {% endfor %}
+        </ul>
+    </article>
+</section>
+{% endblock %}

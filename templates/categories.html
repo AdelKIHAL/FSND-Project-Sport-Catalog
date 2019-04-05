@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<ul class="list-group">
+    <li class="list-group-item bg-dark light">
+        <div class="d-flex w-100 justify-content-between">
+            <div class="mb-1">
+                {{category.name|title}}
+            </div>
+            <div class="light-text">
+                {% if category.name != "Uncategorized" and category.user.email == session.email %}
+                <span class="action"><a href="{{url_for('editCategory',category_name=category.name)}}"> Edit</a></span>
+                <span class="action"><a href="{{url_for('deleteCategory',category_name=category.name)}}">
+                        Delete</a></span>
+                {% endif %}
+            </div>
+        </div>
+    </li>
+    {% if category.name != "Uncategorized" and category.user.email == session.email %}
+    <li class="list-group-item green-title">
+            <i class="fas fa-plus-circle"></i>
+            <span> <a href="{{url_for('newSport',category_name=category.name)}}">Add a new sport</a> </span>
+    </li>
+    {% endif %}
+    {% for sport in sports %}
+    <li class="list-group-item">
+
+        <div class="d-flex w-100 justify-content-between">
+            <div class="mb-1">
+                {% if sport.image is defined %}
+                <img class="small-img img-thumbnail" src="{{sport.image | exists | thumbnail('50x50') }}" alt="">
+                {%endif%}
+
+                <a href="{{url_for('sports',sport_name=sport.name,category_name=sport.category.name)}}">
+                    {{sport.name}}</a>
+                </span>
+
+            </div>
+        </div>
+
+    </li>
+</ul>
+{% endfor %}
+{% endblock %}

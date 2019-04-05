@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+
+{% block content %}
+
+
+<div class="row h-100 justify-content-center align-items-center">
+    <div id="result" style="display:none;" class="alert alert-success"></div>
+    <div id="signinButton" class="g-signin2" data-onsuccess="onSignIn" onclick="ClickLogin()"
+        data-onfailure="onSignInFailure" data-theme="dark" data-width="300" data-height="50" data-longtitle="true">
+    </div>
+
+
+</div>
+
+<script>
+    var clicked = false;//Global Variable
+    function ClickLogin() {
+        clicked = true;
+    }
+
+    function onSignIn(googleUser) {
+        if (!clicked) {
+            return;
+        }
+        // Useful data for your client-side scripts:
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+        console.log('Full Name: ' + profile.getName());
+        console.log('Given Name: ' + profile.getGivenName());
+        console.log('Family Name: ' + profile.getFamilyName());
+        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Email: " + profile.getEmail());
+
+        // The ID token you need to pass to your backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+        // Hide the sign-in button now that the user is authorized
+        $('#signinButton').attr('style', 'display: none');
+
+        $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            processData: false,
+            data: id_token,
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function (result) {
+                // Handle or verify the server response if necessary.
+                if (result) {
+                    $('#result').attr('style', '');
+                    $('#result').html('Login Successful!</br>' + result + '</br>Redirecting...')
+                    setTimeout(function () {
+                        window.location.href = "/catalog";
+                    }, 4000);
+
+                } else {
+                    $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                }
+            }
+
+        });
+
+
+    }
+    function onSignInFailure() {
+        // Handle sign-in errors
+        console.log("error");
+    }
+
+</script>
+
+{% endblock %}

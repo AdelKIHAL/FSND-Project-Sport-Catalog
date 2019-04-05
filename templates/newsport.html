@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div>
+        <h5 class="card-title list-group-item bg-dark light">Create a new Sport</h5>
+    </div>
+    <div class="card-body ">
+
+        <form action="{{url_for('newSport')}}" method='post' enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="sportName">Name</label>
+                <input type="text" class="form-control" name="sportName" id="sportName" aria-describedby="nameHelp"
+                    placeholder="Enter sport name" size="250">
+                <small id="nameHelp" class="form-text text-muted">* Sport name must be unique</small>
+            </div>
+            <div class="form-group">
+                <label for="sportDescription">Description</label>
+                <textarea class="form-control" id="sportDescription" name="sportDescription" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="selectCategory">Category</label>
+                <select class="form-control" name="sportCategory" id="selectCategory">
+                    <option value="" selected disabled>Select a category</option>
+                    {% for category in categories %}
+                    <option value="{{category.id}}" {% if category_name == category.name %} selected {% endif %}>{{category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!--https://bootsnipp.com/snippets/eNbOa-->
+            <div class="form-group">
+                <label>Sport Image</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-secondary btn-file" role="button">
+                            Browse… <input type="file" class="form-control-file" id="imgInp" name="sportImage">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                <img id='img-upload' />
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+            
+            {% if category_name %}
+            <a class="btn btn-danger" href="{{url_for('categories',category_name=category_name)}}"  role="button">Cancel</a>
+            {% else %}
+            <a class="btn btn-danger" href="{{url_for('index')}}"  role="button">Cancel</a>
+            {% endif %}
+<!--             href="{{url_for('categories', category_name='Uncategorized')}} -->
+        </form>
+    </div>
+</div>
+{% endblock %}

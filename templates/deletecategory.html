@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div> <h5 class="card-title list-group-item bg-dark light">Delete Category</h5></div>
+        <div class="card-body ">
+                {%if category.user.email != session.email %}
+                <div class="alert alert-danger">You are not the owner of this item, you are not authorized to modify it</div>
+                {%else%}               
+<form action="{{url_for('deleteCategory',category_name=category.name)}}" method='post'>
+    <div class="form-group">
+        <label for="exampleInputEmail1">{{category.name|title}}</label>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-primary" href="{{url_for('categories',category_name=category.name)}}" role="button">Cancel</a>
+</form>
+{% endif %}
+</div></div>
+{% endblock %}

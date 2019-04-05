@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% set state = STATE %}
+{% block content %}
+<div class="card">
+    <div>
+        <h5 class="card-title list-group-item bg-dark light">Edit Category</h5>
+    </div>
+    <div class="card-body ">
+        {%if category.user.email != session.email %}
+        <div class="alert alert-danger">You are not the owner of this item, you are not authorized to modify it</div>
+        {%else%}
+        <form action="{{url_for('editCategory',category_name=category.name)}}" method='post'
+            enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Category name</label>
+                <input type="text" class="form-control" name="categoryName" aria-describedby="nameHelp"
+                    placeholder="{{ category.name }}" size="250">
+                <small id="nameHelp" class="form-text text-muted">* Category name must be unique</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+            <a class="btn btn-danger" href="{{url_for('categories',category_name=category.name)}}"
+                role="button">Cancel</a>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
